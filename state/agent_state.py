@@ -1,6 +1,7 @@
 from typing import TypedDict, Annotated, Sequence, List, Dict, Any, Optional
 from langchain_core.messages import BaseMessage
 from langgraph.graph import MessagesState
+from operator import add
 
 # Define the state for the LangGraph
 class AgentState(MessagesState):
@@ -15,9 +16,10 @@ class AgentState(MessagesState):
     pass  # MessagesState already includes the messages field with proper annotations
 
 # If you need a more custom state definition, uncomment and modify this:
-"""
 class CustomAgentState(TypedDict):
-    messages: Annotated[Sequence[BaseMessage], operator.add]
+    messages: Annotated[Sequence[BaseMessage], add]
     context: Dict[str, Any]  # Additional context like expense data
     user_info: Dict[str, Any]  # User information
-""" 
+
+class State():
+    messages: Annotated[Sequence[BaseMessage], add]
