@@ -14,7 +14,7 @@ else:
     print("Successfully loaded ANTHROPIC_API_KEY from environment")
 
 # Database paths
-DB_PATH = os.getenv("DB_PATH", "data/expenses.db")
+DB_PATH = os.getenv("DB_PATH", "db/finances.db")
 
 # Other configuration settings
 LLM_MODEL = os.getenv("LLM_MODEL", "claude-3-5-haiku-latest")

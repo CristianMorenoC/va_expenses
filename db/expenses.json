@@ -1,0 +1,16 @@
+[
+  {
+    "id": "00001-sample",
+    "amount": 50.25,
+    "category": "groceries",
+    "description": "Weekly grocery shopping",
+    "date": "2025-04-20T00:00:00"
+  },
+  {
+    "id": "00002-sample",
+    "amount": 120.00,
+    "category": "utilities",
+    "description": "Electricity bill",
+    "date": "2025-04-15T00:00:00"
+  }
+]

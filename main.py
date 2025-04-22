@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import uuid
+import traceback
 from langchain_core.messages import HumanMessage, AIMessage
 
 from main_graph import get_agent_graph
@@ -42,6 +43,7 @@ def display_help():
     help        - Show this help message
     clear       - Clear the screen
     exit/quit   - Exit the application
+    debug       - Run diagnostics on the agent setup
     
     Example Queries:
     --------------
@@ -53,12 +55,49 @@ def display_help():
     """
     print(colorize(help_text, "37;1"))  # White
 
+def run_diagnostics():
+    """Run diagnostics to check the agent setup."""
+    try:
+        from tools.utils import tools
+        print(colorize(f"\nFound {len(tools)} tools:", "33"))
+        for tool in tools:
+            print(colorize(f"  - {tool.name}: {tool.__doc__.strip() if tool.__doc__ else 'No description'}", "37"))
+        
+        # Test ExpenseRetriever
+        from agents.retriever import ExpenseRetriever
+        retriever = ExpenseRetriever()
+        print(colorize("\nTesting ExpenseRetriever...", "33"))
+        data = retriever.get_expense_data(period="month")
+        print(colorize(f"  Retrieved {data['count']} expenses, total: ${data['total']:.2f}", "37"))
+        
+        # Test IntentAnalyzer
+        from agents.analyzer import IntentAnalyzer
+        analyzer = IntentAnalyzer()
+        print(colorize("\nTesting IntentAnalyzer...", "33"))
+        test_intent = analyzer.analyze("Show me my expenses for this month")
+        print(colorize(f"  Detected intent: {test_intent.get('intent', 'Unknown')}", "37"))
+        
+        print(colorize("\nDiagnostics completed successfully.", "32"))
+        return True
+    except Exception as e:
+        print(colorize(f"\nDiagnostics error: {str(e)}", "31"))
+        traceback.print_exc()
+        return False
+
 def main():
     """Main function for the console interface."""
     clear_screen()
     display_header()
     
-    agent = get_agent_graph()
+    # Get the agent graph
+    try:
+        agent = get_agent_graph()
+        print(colorize("Agent loaded successfully!", "32"))
+    except Exception as e:
+        print(colorize(f"Error loading agent: {str(e)}", "31"))
+        traceback.print_exc()
+        return
+    
     session_id = str(uuid.uuid4())
     
     while True:
@@ -78,6 +117,10 @@ def main():
                 display_header()
                 continue
             
+            if user_input.lower() == "debug":
+                run_diagnostics()
+                continue
+            
             if not user_input.strip():
                 continue
             
@@ -87,19 +130,27 @@ def main():
             # Create initial state with the user message
             state = {"messages": [HumanMessage(content=user_input)]}
             
-            # Get the response from the agent
-            result = agent.invoke(state, config)
+            print(colorize("Processing your request...", "33"))
             
-            # Print the assistant's response, skipping system messages
-            for msg in result["messages"]:
-                if hasattr(msg, 'type') and msg.type in ('ai', 'human'):
-                    print(format_message(msg))
+            # Get the response from the agent
+            try:
+                result = agent.invoke(state, config)
+                
+                # Print the assistant's response, skipping system messages
+                for msg in result["messages"]:
+                    if hasattr(msg, 'type') and msg.type in ('ai', 'human'):
+                        print(format_message(msg))
+            except Exception as e:
+                print(colorize(f"\nAgent error: {str(e)}", "31"))
+                print(colorize("Error details:", "31"))
+                traceback.print_exc()
         
         except KeyboardInterrupt:
             print(colorize("\n\nInterrupted by user. Exiting...", "31;1"))  # Red
             break
         except Exception as e:
             print(colorize(f"\nAn error occurred: {str(e)}", "31;1"))  # Red
+            traceback.print_exc()
     
 if __name__ == "__main__":
     main() 

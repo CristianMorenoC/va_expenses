@@ -1,0 +1,14 @@
+[
+  {
+    "name": "default_user",
+    "income": 4000.00,
+    "savings_goal": 15000.00,
+    "risk_tolerance": "medium",
+    "preferences": {
+      "savings_rate": 0.15,
+      "investing_priorities": ["retirement", "emergency_fund", "home_ownership"],
+      "expense_alerts": true,
+      "budget_reminder_frequency": "weekly"
+    }
+  }
+]

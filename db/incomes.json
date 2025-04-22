@@ -1,0 +1,9 @@
+[
+  {
+    "id": "inc-00001",
+    "amount": 3500.00,
+    "source": "salary",
+    "description": "Monthly salary payment",
+    "date": "2025-04-01T00:00:00"
+  }
+]

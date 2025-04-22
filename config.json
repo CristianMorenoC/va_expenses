@@ -1,0 +1,10 @@
+{
+    "model": "claude-3-5-haiku-latest",
+    "temperature": 0.5,
+    "max_tokens": 1000,
+    "top_p": 1,
+    "frequency_penalty": 0,
+    "presence_penalty": 0,
+    "stop": ["\n\n"],
+    "context-messages": 5
+}

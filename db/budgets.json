@@ -1,0 +1,19 @@
+[
+  {
+    "id": "budget-april-2025",
+    "total": 3000.00,
+    "allocations": {
+      "housing": 1000.00,
+      "groceries": 500.00,
+      "utilities": 200.00,
+      "transportation": 300.00,
+      "entertainment": 200.00,
+      "savings": 500.00,
+      "healthcare": 200.00,
+      "miscellaneous": 100.00
+    },
+    "period": "monthly",
+    "start_date": "2025-04-01T00:00:00",
+    "end_date": "2025-04-30T23:59:59"
+  }
+]
