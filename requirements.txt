@@ -13,3 +13,5 @@ tavily-python
 wikipedia
 trustcall
 langgraph-cli[inmem]
+"fastapi[standard]"
+uvicorn
